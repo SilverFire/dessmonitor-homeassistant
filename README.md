@@ -16,37 +16,37 @@ is built in a bunch of inverters, so the API is available for them as well.
 The following devices are checked to be supported by the API:
 
 - **Sorotec**:
-   - Sorotec REVO VM II PRO 3.2kW/24V Wi-Fi
-   - Sorotec REVO VM II PRO 3.5kW/24V Wi-Fi
-   - Sorotec REVO HM 6kW/48V Wi-Fi
-   - Sorotec REVO VM IV PRO-T 6kW/48V Wi-Fi
-   - Sorotec REVO HMT 6kW/48V Wi-Fi
-   - Sorotec REVO HES 6kW/48V Wi-Fi
-   - Sorotec REVO HMT 11kW/48V Wi-Fi
+    - Sorotec REVO VM II PRO 3.2kW/24V Wi-Fi
+    - Sorotec REVO VM II PRO 3.5kW/24V Wi-Fi
+    - Sorotec REVO HM 6kW/48V Wi-Fi
+    - Sorotec REVO VM IV PRO-T 6kW/48V Wi-Fi
+    - Sorotec REVO HMT 6kW/48V Wi-Fi
+    - Sorotec REVO HES 6kW/48V Wi-Fi
+    - Sorotec REVO HMT 11kW/48V Wi-Fi
 - **MuscleGrid**:
-   - MuscleGrid 4.2 KW
-   - MuscleGrid 10.2 KW
-   - MuscleGrid 6KW
-   - MuscleGrid 6.2 KW True Hybrid
+    - MuscleGrid 4.2 KW
+    - MuscleGrid 10.2 KW
+    - MuscleGrid 6KW
+    - MuscleGrid 6.2 KW True Hybrid
 - **PowMr**:
-   - PowMr 1000 Watt 220Vac 12Vdc
-   - PowMr 1500 Watt 220Vac 24Vdc
-   - PowMr 1600 Watt 220Vac 12Vdc
-   - PowMr 2000 Watt 220Vac 12Vdc
-   - PowMr 3000 Watt 110Vac 24Vdc
-   - PowMr 3000 Watt 220Vac 24Vdc
-   - PowMr 3200 Watt 110Vac 24Vdc
-   - PowMr 3200 Watt 220Vac 24Vdc
-   - PowMr 3500 Watt 110Vac 48Vdc
-   - PowMr 3600 Watt DC 24V AC 110V
-   - PowMr 4200 Watt DC 24V AC 220V
-   - PowMr 5000 Watt 110Vac 48Vdc
-   - PowMr 5000 Watt 48Vdc 110V240V
-   - PowMr 6000 Watt 220Vac 48Vdc
-   - PowMr 6200 Watt 220Vac 48Vdc
-   - PowMr 6200 Watt 220Vac 48Vdc
-   - PowMr 6200 Watt 220Vac 48Vdc Dual Outputs
-   - PowMr 10.2 KW 220Vac 48Vdc
+    - PowMr 1000 Watt 220Vac 12Vdc
+    - PowMr 1500 Watt 220Vac 24Vdc
+    - PowMr 1600 Watt 220Vac 12Vdc
+    - PowMr 2000 Watt 220Vac 12Vdc
+    - PowMr 3000 Watt 110Vac 24Vdc
+    - PowMr 3000 Watt 220Vac 24Vdc
+    - PowMr 3200 Watt 110Vac 24Vdc
+    - PowMr 3200 Watt 220Vac 24Vdc
+    - PowMr 3500 Watt 110Vac 48Vdc
+    - PowMr 3600 Watt DC 24V AC 110V
+    - PowMr 4200 Watt DC 24V AC 220V
+    - PowMr 5000 Watt 110Vac 48Vdc
+    - PowMr 5000 Watt 48Vdc 110V240V
+    - PowMr 6000 Watt 220Vac 48Vdc
+    - PowMr 6200 Watt 220Vac 48Vdc
+    - PowMr 6200 Watt 220Vac 48Vdc
+    - PowMr 6200 Watt 220Vac 48Vdc Dual Outputs
+    - PowMr 10.2 KW 220Vac 48Vdc
 
 ## Exported sensors
 
@@ -114,11 +114,11 @@ The following sensors are available via the API:
 3. Create `template.yaml` file in your HomeAssistant configuration, add contents
    depending on your inverter model.
 
-| Brand / Model       | Template file                                                                      | Credits          |
-|---------------------|------------------------------------------------------------------------------------|------------------|
-| Sorotec, MuscleGrid | [template.yaml](src/template.yaml)                                                 |                  |
-| PowMr               | [powmr.yaml](src/powmr.yaml)                                                       | @lawyerhome @ #1 |
-| Other               | Try using the Sorotec template and adjust if it doesn't work. See #1 as an example |                  |
+| Brand / Model       | Template file                                                                                                                                                | Credits                                                                                    |
+|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
+| Sorotec, MuscleGrid | [template.yaml](src/template.yaml)                                                                                                                           |                                                                                            |
+| PowMr               | [powmr.yaml](src/powmr.yaml)                                                                                                                                 | @lawyerhome @ [issue #1](https://github.com/SilverFire/dessmonitor-homeassistant/issues/1) |
+| Other               | Try using the Sorotec template and adjust if it doesn't work. See [issue #1](https://github.com/SilverFire/dessmonitor-homeassistant/issues/1) as an example |                                                                                            |
 
 4. Include the `template.yaml` in your `configuration.yaml`:
     ```yaml
