@@ -125,14 +125,16 @@ The following sensors are available via the API:
     template: !include template.yaml
     ```
 
+5. Restart Home Assistant to apply changes.
+
+
 ## Visualize the data
 
-You can use any card to display the data, but I recommend using
-the [sunsynk-power-flow-card](https://github.com/slipx06/sunsynk-power-flow-card).
+You can use any card to display the data. I tried and enjoyed the [sunsynk-power-flow-card](https://github.com/slipx06/sunsynk-power-flow-card).
 
 ![](docs/card.png)
 
-I use the following config, but you can customize it to your needs:
+I use the following config. Feel free to customize it to your needs:
 
 ```yaml
 type: custom:sunsynk-power-flow-card
