@@ -118,7 +118,7 @@ The following sensors are available via the API:
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
 | Sorotec, MuscleGrid | [template.yaml](src/template.yaml)                                                                                                                           |                                                                                            |
 | PowMr               | [powmr.yaml](src/powmr.yaml)                                                                                                                                 | @lawyerhome @ [issue #1](https://github.com/SilverFire/dessmonitor-homeassistant/issues/1) |
-| Other               | Try using the Sorotec template and adjust if it doesn't work. See [issue #1](https://github.com/SilverFire/dessmonitor-homeassistant/issues/1) as an example |                                                                                            |
+| Other               | Try using the Sorotec template and adjust if it doesn't work. See [issue #1](https://github.com/SilverFire/dessmonitor-homeassistant/issues/1) as an example. Feel free to submit an issue or a pull request to share your effort with other enthusiasts 🙌 |                                                                                            |
 
 4. Include the `template.yaml` in your `configuration.yaml`:
     ```yaml
