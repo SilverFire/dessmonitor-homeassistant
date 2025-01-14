@@ -47,6 +47,13 @@ The following devices are checked to be supported by the API:
     - PowMr 6200 Watt 220Vac 48Vdc
     - PowMr 6200 Watt 220Vac 48Vdc Dual Outputs
     - PowMr 10.2 KW 220Vac 48Vdc
+- **EG4®**
+    - EG4® FlexBOSS21
+    - EG4® 12000XP
+    - EG4® 18kPV-12LV All-In-One Hybrid Inverter
+    - EG4® 6000XP All-In-One Off-Grid Inverter
+    - EG4® 12kPV All-In-One Hybrid Inverter
+    - EG4® 3000EHV-48 All-In-One Off-Grid Inverter
 
 ## Exported sensors
 
@@ -114,10 +121,11 @@ The following sensors are available via the API:
 3. Create `template.yaml` file in your HomeAssistant configuration, add contents
    depending on your inverter model.
 
-| Brand / Model       | Template file                                                                                                                                                | Credits                                                                                    |
-|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
-| Sorotec, MuscleGrid | [template.yaml](src/template.yaml)                                                                                                                           |                                                                                            |
-| PowMr               | [powmr.yaml](src/powmr.yaml)                                                                                                                                 | @lawyerhome @ [issue #1](https://github.com/SilverFire/dessmonitor-homeassistant/issues/1) |
+| Brand / Model       | Template file                                                                                                                                                                                                                                               | Credits                                                                                    |
+|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
+| Sorotec, MuscleGrid | [template.yaml](src/template.yaml)                                                                                                                                                                                                                          |                                                                                            |
+| PowMr               | [powmr.yaml](src/powmr.yaml)                                                                                                                                                                                                                                | @lawyerhome @ [issue #1](https://github.com/SilverFire/dessmonitor-homeassistant/issues/1) |
+| EG4®                | [eg4.yaml](src/eg4.yaml)                                                                                                                                                                                                                                    | @Joannou1 @ [issue #3](https://github.com/SilverFire/dessmonitor-homeassistant/issues/3)   |
 | Other               | Try using the Sorotec template and adjust if it doesn't work. See [issue #1](https://github.com/SilverFire/dessmonitor-homeassistant/issues/1) as an example. Feel free to submit an issue or a pull request to share your effort with other enthusiasts 🙌 |                                                                                            |
 
 4. Include the `template.yaml` in your `configuration.yaml`:
@@ -127,10 +135,10 @@ The following sensors are available via the API:
 
 5. Restart Home Assistant to apply changes.
 
-
 ## Visualize the data
 
-You can use any card to display the data. I tried and enjoyed the [sunsynk-power-flow-card](https://github.com/slipx06/sunsynk-power-flow-card).
+You can use any card to display the data. I tried and enjoyed
+the [sunsynk-power-flow-card](https://github.com/slipx06/sunsynk-power-flow-card).
 
 ![](docs/card.png)
 

@@ -1,0 +1,147 @@
+
+    - name: "Grid Voltage"
+      state: >
+        {% set gd_items = state_attr('sensor.trailer_inverter_data', 'gd_') %}
+        {{ (gd_items | selectattr('id', 'equalto', 'gd_eybond_read_15') | map(attribute='val') | first) | float }}
+      unit_of_measurement: "V"
+      device_class: "voltage"
+      state_class: "measurement"
+
+    - name: "Grid Frequency"
+      state: >
+        {% set gd_items = state_attr('sensor.trailer_inverter_data', 'gd_') %}
+        {{ (gd_items | selectattr('id', 'equalto', 'gd_eybond_read_16') | map(attribute='val') | first) | float }}
+      unit_of_measurement: "Hz"
+      device_class: "frequency"
+      state_class: "measurement"
+
+    - name: "Grid Power"
+      state: >
+        {% set gd_items = state_attr('sensor.trailer_inverter_data', 'gd_') %}
+        {% set bt_items = state_attr('sensor.trailer_inverter_data', 'bt_') %}
+        {% set bc_items = state_attr('sensor.trailer_inverter_data', 'bc_') %}
+        {% set pv_items = state_attr('sensor.trailer_inverter_data', 'pv_') %}
+        {% set grid_voltage = (gd_items | selectattr('id', 'equalto', 'gd_eybond_read_15') | map(attribute='val') | first) | float %}
+        {% set charging_current = (pv_items | selectattr('id', 'equalto', 'pv_eybond_read_46') | map(attribute='val') | first) | float %}
+        {% set battery_voltage = (bt_items | selectattr('id', 'equalto', 'bt_eybond_read_28') | map(attribute='val') | first) | float %}
+        {% set load_power = (bc_items | selectattr('id', 'equalto', 'bc_load_active_power') | map(attribute='val') | first) | float %}
+        
+        {% if grid_voltage > 0 %}
+          {{ (charging_current * battery_voltage) + load_power }}
+        {% else %}
+          0
+        {% endif %}
+      unit_of_measurement: "W"
+      device_class: "energy"
+      state_class: "measurement"
+
+    - name: "PV1 Voltage"
+      state: >
+        {% set pv_items = state_attr('sensor.trailer_inverter_data', 'pv_') %}
+        {{ (pv_items | selectattr('id', 'equalto', 'pv_eybond_read_32') | map(attribute='val') | first) | float }}
+      unit_of_measurement: "V"
+      device_class: "voltage"
+      state_class: "measurement"
+
+    - name: "PV1 Current"
+      state: >
+        {% set pv_items = state_attr('sensor.trailer_inverter_data', 'pv_') %}
+        {{ (pv_items | selectattr('id', 'equalto', 'pv_eybond_read_33') | map(attribute='val') | first) | float }}
+      unit_of_measurement: "A"
+      device_class: "current"
+      state_class: "measurement"
+
+    - name: "PV1 Power"
+      state: >
+        {% set pv_items = state_attr('sensor.trailer_inverter_data', 'pv_') %}
+        {{ (pv_items | selectattr('id', 'equalto', 'pv_output_power') | map(attribute='val') | first) | float }}
+      unit_of_measurement: "W"
+      device_class: "energy"
+      state_class: "measurement"
+
+    - name: "Battery Voltage"
+      state: >
+        {% set bt_items = state_attr('sensor.trailer_inverter_data', 'bt_') %}
+        {{ (bt_items | selectattr('id', 'equalto', 'bt_eybond_read_28') | map(attribute='val') | first) | float }}
+      unit_of_measurement: "V"
+      device_class: "voltage"
+      state_class: "measurement"
+
+    - name: "Battery Power"
+      state: >
+        {% set bt_items = state_attr('sensor.trailer_inverter_data', 'bt_') %}
+        {% set battery_current = (bt_items | selectattr('id', 'equalto', 'bt_eybond_read_29') | map(attribute='val') | first) | float %}
+        {% set battery_voltage = (bt_items | selectattr('id', 'equalto', 'bt_eybond_read_28') | map(attribute='val') | first) | float %}
+        {{ (battery_current * battery_voltage) | float }}
+      unit_of_measurement: "W"
+      device_class: "energy"
+      state_class: "measurement"
+
+    - name: "Battery SOC"
+      state: >
+        {% set bt_items = state_attr('sensor.trailer_battery_data', 'parameter') %}
+
+        {{ (bt_items | selectattr('par', 'equalto', 'bt_battery_capacity') | map(attribute='val') | first) | float }}
+      unit_of_measurement: "%"
+      device_class: "battery"
+      state_class: "measurement"
+
+    - name: "Battery Discharge Current"
+      state: >
+        {% set bt_items = state_attr('sensor.trailer_inverter_data', 'bt_') %}
+        {% set battery_current = (bt_items | selectattr('id', 'equalto', 'bt_eybond_read_29') | map(attribute='val') | first) | float %}
+        
+        {% if battery_current < 0 %}
+          {{ battery_current }}
+        {% else %}
+          0
+        {% endif %}
+      unit_of_measurement: "A"
+      device_class: "current"
+      state_class: "measurement"
+
+    - name: "Battery Charging Current"
+      state: >
+        {% set bt_items = state_attr('sensor.trailer_inverter_data', 'bt_') %}
+        {% set battery_current = (bt_items | selectattr('id', 'equalto', 'bt_eybond_read_29') | map(attribute='val') | first) | float %}
+        
+        {% if battery_current > 0 %}
+          {{ battery_current }}
+        {% else %}
+          0
+        {% endif %}
+      unit_of_measurement: "A"
+      device_class: "current"
+      state_class: "measurement"
+
+    - name: "Battery Current"
+      state: >
+        {% set bt_items = state_attr('sensor.trailer_inverter_data', 'bt_') %}
+
+        {{ (bt_items | selectattr('id', 'equalto', 'bt_eybond_read_29') | map(attribute='val') | first) | float }}
+
+      unit_of_measurement: "A"
+      device_class: "current"
+      state_class: "measurement"
+
+    - name: "Battery Current Direction"
+      state: >
+        {% set bt_items = state_attr('sensor.trailer_inverter_data', 'bt_') %}
+        {% set battery_current = (bt_items | selectattr('id', 'equalto', 'bt_eybond_read_29') | map(attribute='val') | first) | float %}
+        {{ 1 if battery_current > 0 else 0 }}
+
+    - name: "Load Output Voltage"
+      state: >
+        {% set bc_items = state_attr('sensor.trailer_inverter_data', 'bc_') %}
+        {{ (bc_items | selectattr('id', 'equalto', 'bc_eybond_read_23') | map(attribute='val') | first) | float }}
+      unit_of_measurement: "V"
+      device_class: "voltage"
+      state_class: "measurement"
+
+    - name: "Load Power"
+      state: >
+        {% set bc_items = state_attr('sensor.trailer_inverter_data', 'bc_') %}
+        {{ (bc_items | selectattr('id', 'equalto', 'bc_load_active_power') | map(attribute='val') | first) | float }}
+      unit_of_measurement: "W"
+      device_class: "energy"
+      state_class: "measurement"
