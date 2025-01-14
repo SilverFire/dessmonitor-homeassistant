@@ -134,3 +134,23 @@
       unit_of_measurement: "W"
       device_class: "power"
       state_class: "measurement"
+
+    - name: "AC input voltage range" # APL = 90-280VAC | UPS = 170-280VAC
+      state: >
+        {% set gd_items = state_attr('sensor.inverter_data', 'gd_') %}
+        {{ (gd_items | selectattr('id', 'equalto', 'gd_ac_input_range') | map(attribute='val') | first ) }}
+
+    - name: "Battery type" # type AGN, USE, LIB, LIC, LIP, LIL
+      state: >
+        {% set bt_items = state_attr('sensor.inverter_data', 'bt_') %}
+        {{ (bt_items | selectattr('id', 'equalto', 'bt_battery_type') | map(attribute='val') | first ) }}
+
+    - name: "Charger source priority" # To configure charger source priority
+      state: >
+        {% set bt_items = state_attr('sensor.inverter_data', 'bt_') %}
+        {{ (bt_items | selectattr('id', 'equalto', 'bt_charger_source_priority') | map(attribute='val') | first ) }}
+
+    - name: "Output source priority" # To configure loat power source priority
+      state: >
+        {% set bc_items = state_attr('sensor.inverter_data', 'bc_') %}
+        {{ (bc_items | selectattr('id', 'equalto', 'bc_output_source_priority') | map(attribute='val') | first ) }}
