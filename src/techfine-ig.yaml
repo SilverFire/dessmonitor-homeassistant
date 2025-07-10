@@ -1,0 +1,128 @@
+- sensor:
+    - name: "Grid Voltage"
+      unique_id: techfine_grid_voltage
+      unit_of_measurement: "V"
+      state: >
+        {% set v = state_attr('sensor.inverter_data', 'gd_') %}
+        {{ v | selectattr('id', 'eq', 'gd_bse_input_voltage') | map(attribute='val') | list | first | default('unknown') }}
+
+    - name: "Grid Frequency"
+      unique_id: techfine_grid_frequency
+      unit_of_measurement: "Hz"
+      state: >
+        {% set v = state_attr('sensor.inverter_data', 'gd_') %}
+        {{ v | selectattr('id', 'eq', 'gd_phase_a_mains_voltage') | map(attribute='val') | list | first | default('unknown') }}
+
+    - name: "PV1 Voltage"
+      unique_id: techfine_pv1_voltage
+      unit_of_measurement: "V"
+      state: >
+        {% set v = state_attr('sensor.inverter_data', 'pv_') %}
+        {{ v | selectattr('id', 'eq', 'pv_voltage') | map(attribute='val') | list | first | default('unknown') }}
+
+    - name: "PV1 Current"
+      unique_id: techfine_pv1_current
+      unit_of_measurement: "A"
+      state: >
+        {% set v = state_attr('sensor.inverter_data', 'pv_') %}
+        {{ v | selectattr('id', 'eq', 'pv_input_current') | map(attribute='val') | list | first | default('unknown') }}
+
+    - name: "PV1 Power"
+      unique_id: techfine_pv1_power
+      unit_of_measurement: "W"
+      state: >
+        {% set v = state_attr('sensor.inverter_data', 'pv_') %}
+        {{ v | selectattr('id', 'eq', 'pv_output_power') | map(attribute='val') | list | first | default('unknown') }}
+
+    - name: "PV1 Power kW"
+      unique_id: techfine_pv1_power_kw
+      unit_of_measurement: "kW"
+      device_class: power
+      state: >
+        {% set pv_w = states('sensor.pv1_power')|float(0) %}
+        {{ (pv_w / 1000) | round(3) }}
+
+    - name: "Battery Voltage"
+      unique_id: techfine_battery_voltage
+      unit_of_measurement: "V"
+      state: >
+        {% set v = state_attr('sensor.inverter_data', 'bt_') %}
+        {{ v | selectattr('id', 'eq', 'bt_battery_voltage') | map(attribute='val') | list | first | default('unknown') }}
+
+    - name: "Battery SOC"
+      unique_id: techfine_battery_soc
+      unit_of_measurement: "%"
+      state: >
+        {% set v = state_attr('sensor.inverter_data', 'bt_') %}
+        {{ v | selectattr('id', 'eq', 'bt_battery_capacity') | map(attribute='val') | list | first | default('unknown') }}
+
+    - name: "Battery Discharge Current"
+      unique_id: techfine_battery_discharge_current
+      unit_of_measurement: "A"
+      state: >
+        {% set v = state_attr('sensor.inverter_data', 'bt_') %}
+        {{ v | selectattr('id', 'eq', 'bt_battery_current') | map(attribute='val') | list | first | default('unknown') }}
+
+    - name: "Battery Charging Current"
+      unique_id: techfine_battery_charging_current
+      unit_of_measurement: "A"
+      state: >
+        {% set v = state_attr('sensor.inverter_data', 'bt_') %}
+        {{ v | selectattr('id', 'eq', 'bt_input_current') | map(attribute='val') | list | first | default('unknown') }}
+
+    - name: "Load Power"
+      unique_id: techfine_load_power
+      unit_of_measurement: "kVA"
+      state: >
+        {% set v = state_attr('sensor.inverter_data', 'bc_') %}
+        {{ v | selectattr('id', 'eq', 'bc_op_load_power') | map(attribute='val') | list | first | default('unknown') }}
+
+    - name: "Grid Flow"
+      unique_id: techfine_grid_flow
+      unit_of_measurement: "W"
+      state: >
+        {% set load = states('sensor.techfine_load_power')|float(0) * 1000 %}
+        {% set pv = states('sensor.techfine_pv1_power')|float(0) %}
+        {% set batt_v = states('sensor.techfine_battery_voltage')|float(0) %}
+        {% set batt_charge = states('sensor.techfine_battery_charging_current')|float(0) * batt_v %}
+        {% set batt_discharge = states('sensor.techfine_battery_discharge_current')|float(0) * batt_v %}
+        {{ (load + batt_charge - pv - batt_discharge) | round(2) }}
+
+    - name: "PV2 Voltage"
+      unique_id: techfine_pv2_voltage
+      unit_of_measurement: "V"
+      state: >
+        {% set v = state_attr('sensor.inverter_data', 'pv_') %}
+        {{ v | selectattr('id', 'eq', 'pv_voltage_1') | map(attribute='val') | list | first | default('unknown') }}
+
+    - name: "PV2 Current"
+      unique_id: techfine_pv2_current
+      unit_of_measurement: "A"
+      state: >
+        {% set v = state_attr('sensor.inverter_data', 'pv_') %}
+        {{ v | selectattr('id', 'eq', 'pv_input_current_2') | map(attribute='val') | list | first | default('unknown') }}
+
+    - name: "Load Percent"
+      unique_id: techfine_load_percent
+      unit_of_measurement: "%"
+      state: >
+        {% set v = state_attr('sensor.inverter_data', 'bc_') %}
+        {{ v | selectattr('id', 'eq', 'bc_load_percent') | map(attribute='val') | list | first | default('unknown') }}
+
+    - name: "Battery Charge Power"
+      unique_id: battery_charge_power_kw
+      unit_of_measurement: "kW"
+      device_class: power
+      state: >
+        {% set voltage = states('sensor.battery_voltage')|float(0) %}
+        {% set current = states('sensor.battery_charge_current')|float(0) %}
+        {{ ((voltage * current) / 1000) | round(3) }}
+
+    - name: "Battery Discharge Power"
+      unique_id: battery_discharge_power_kw
+      unit_of_measurement: "kW"
+      device_class: power
+      state: >
+        {% set voltage = states('sensor.battery_voltage')|float(0) %}
+        {% set current = states('sensor.battery_discharge_current')|float(0) %}
+        {{ ((voltage * current) / 1000) | round(3) }}
