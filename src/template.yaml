@@ -10,7 +10,7 @@
     - name: "Grid Frequency"
       state: >
         {% set gd_items = state_attr('sensor.inverter_data', 'gd_') %}
-        {{ (gd_items | selectattr('id', 'equalto', 'gd_rid_frequency') | map(attribute='val') | first) | float }}
+        {{ (gd_items | selectattr('id', 'equalto', 'gd_grid_frequency') | map(attribute='val') | first) | float }}
       unit_of_measurement: "Hz"
       device_class: "frequency"
       state_class: "measurement"
