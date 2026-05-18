@@ -1,0 +1,140 @@
+- sensor:
+    - name: "Grid Voltage"
+      state: >
+        {% set gd_items = state_attr('sensor.inverter_data', 'gd_') %}
+        {{ (gd_items | selectattr('id', 'equalto', 'gd_bse_input_voltage') | map(attribute='val') | first) | float }}
+      unit_of_measurement: "V"
+      device_class: "voltage"
+      state_class: "measurement"
+
+    - name: "Grid Frequency"
+      state: >
+        {% set gd_items = state_attr('sensor.inverter_data', 'gd_') %}
+        {{ (gd_items | selectattr('id', 'equalto', 'gd_phase_a_mains_voltage') | map(attribute='val') | first) | float }}
+      unit_of_measurement: "Hz"
+      device_class: "frequency"
+      state_class: "measurement"
+
+    - name: "PV1 Voltage"
+      state: >
+        {% set pv_items = state_attr('sensor.inverter_data', 'pv_') %}
+        {{ (pv_items | selectattr('id', 'equalto', 'pv_voltage') | map(attribute='val') | first) | float }}
+      unit_of_measurement: "V"
+      device_class: "voltage"
+      state_class: "measurement"
+
+    - name: "PV1 Current"
+      state: >
+        {% set pv_items = state_attr('sensor.inverter_data', 'pv_') %}
+        {{ (pv_items | selectattr('id', 'equalto', 'pv_input_current') | map(attribute='val') | first) | float }}
+      unit_of_measurement: "A"
+      device_class: "current"
+      state_class: "measurement"
+
+    - name: "PV1 Power"
+      state: >
+        {% set pv_items = state_attr('sensor.inverter_data', 'pv_') %}
+        {{ (pv_items | selectattr('id', 'equalto', 'pv_output_power') | map(attribute='val') | first) | float }}
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+
+    - name: "PV1 Power kW"
+      state: >
+        {{ (states('sensor.pv1_power') | float(0) / 1000) | round(3) }}
+      unit_of_measurement: "kW"
+      device_class: "power"
+      state_class: "measurement"
+
+    - name: "Battery Voltage"
+      state: >
+        {% set bt_items = state_attr('sensor.inverter_data', 'bt_') %}
+        {{ (bt_items | selectattr('id', 'equalto', 'bt_battery_voltage') | map(attribute='val') | first) | float }}
+      unit_of_measurement: "V"
+      device_class: "voltage"
+      state_class: "measurement"
+
+    - name: "Battery SOC"
+      state: >
+        {% set bt_items = state_attr('sensor.inverter_data', 'bt_') %}
+        {{ (bt_items | selectattr('id', 'equalto', 'bt_battery_capacity') | map(attribute='val') | first) | float }}
+      unit_of_measurement: "%"
+      device_class: "battery"
+      state_class: "measurement"
+
+    - name: "Battery Discharge Current"
+      state: >
+        {% set bt_items = state_attr('sensor.inverter_data', 'bt_') %}
+        {{ (bt_items | selectattr('id', 'equalto', 'bt_battery_current') | map(attribute='val') | first) | float }}
+      unit_of_measurement: "A"
+      device_class: "current"
+      state_class: "measurement"
+
+    - name: "Battery Charging Current"
+      state: >
+        {% set bt_items = state_attr('sensor.inverter_data', 'bt_') %}
+        {{ (bt_items | selectattr('id', 'equalto', 'bt_input_current') | map(attribute='val') | first) | float }}
+      unit_of_measurement: "A"
+      device_class: "current"
+      state_class: "measurement"
+
+    - name: "Load Power"
+      state: >
+        {% set bc_items = state_attr('sensor.inverter_data', 'bc_') %}
+        {{ (bc_items | selectattr('id', 'equalto', 'bc_op_load_power') | map(attribute='val') | first) | float }}
+      unit_of_measurement: "kVA"
+      device_class: "apparent_power"
+      state_class: "measurement"
+
+    - name: "Grid Flow"
+      state: >
+        {% set load = states('sensor.load_power') | float(0) * 1000 %}
+        {% set pv = states('sensor.pv1_power') | float(0) %}
+        {% set batt_v = states('sensor.battery_voltage') | float(0) %}
+        {% set batt_charge = states('sensor.battery_charging_current') | float(0) * batt_v %}
+        {% set batt_discharge = states('sensor.battery_discharge_current') | float(0) * batt_v %}
+        {{ (load + batt_charge - pv - batt_discharge) | round(2) }}
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+
+    - name: "PV2 Voltage"
+      state: >
+        {% set pv_items = state_attr('sensor.inverter_data', 'pv_') %}
+        {{ (pv_items | selectattr('id', 'equalto', 'pv_voltage_1') | map(attribute='val') | first) | float }}
+      unit_of_measurement: "V"
+      device_class: "voltage"
+      state_class: "measurement"
+
+    - name: "PV2 Current"
+      state: >
+        {% set pv_items = state_attr('sensor.inverter_data', 'pv_') %}
+        {{ (pv_items | selectattr('id', 'equalto', 'pv_input_current_2') | map(attribute='val') | first) | float }}
+      unit_of_measurement: "A"
+      device_class: "current"
+      state_class: "measurement"
+
+    - name: "Load Percent"
+      state: >
+        {% set bc_items = state_attr('sensor.inverter_data', 'bc_') %}
+        {{ (bc_items | selectattr('id', 'equalto', 'bc_load_percent') | map(attribute='val') | first) | float }}
+      unit_of_measurement: "%"
+      state_class: "measurement"
+
+    - name: "Battery Charge Power"
+      state: >
+        {% set voltage = states('sensor.battery_voltage') | float(0) %}
+        {% set current = states('sensor.battery_charging_current') | float(0) %}
+        {{ ((voltage * current) / 1000) | round(3) }}
+      unit_of_measurement: "kW"
+      device_class: "power"
+      state_class: "measurement"
+
+    - name: "Battery Discharge Power"
+      state: >
+        {% set voltage = states('sensor.battery_voltage') | float(0) %}
+        {% set current = states('sensor.battery_discharge_current') | float(0) %}
+        {{ ((voltage * current) / 1000) | round(3) }}
+      unit_of_measurement: "kW"
+      device_class: "power"
+      state_class: "measurement"
