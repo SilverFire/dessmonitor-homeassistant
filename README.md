@@ -54,6 +54,8 @@ The following devices are checked to be supported by the API:
     - EG4® 6000XP All-In-One Off-Grid Inverter
     - EG4® 12kPV All-In-One Hybrid Inverter
     - EG4® 3000EHV-48 All-In-One Off-Grid Inverter
+- **Anenji®**
+    - Anenji® 4200 Watt 24Vdc 220Vac
 
 ## Exported sensors
 
@@ -126,6 +128,7 @@ The following sensors are available via the API:
 | Sorotec, MuscleGrid | [template.yaml](src/template.yaml)                                                                                                                                                                                                                          |                                                                                            |
 | PowMr               | [powmr.yaml](src/powmr.yaml)                                                                                                                                                                                                                                | @lawyerhome @ [issue #1](https://github.com/SilverFire/dessmonitor-homeassistant/issues/1) |
 | EG4®                | [eg4.yaml](src/eg4.yaml)                                                                                                                                                                                                                                    | @Joannou1 @ [issue #3](https://github.com/SilverFire/dessmonitor-homeassistant/issues/3)   |
+| Anenji®             | [anenji.yaml](src/anenji.yaml)                                                                                                                                                                                                                              | @itgenmar @ [issue #22](https://github.com/SilverFire/dessmonitor-homeassistant/issues/22) |
 | Other               | Try using the Sorotec template and adjust if it doesn't work. See [issue #1](https://github.com/SilverFire/dessmonitor-homeassistant/issues/1) as an example. Feel free to submit an issue or a pull request to share your effort with other enthusiasts 🙌 |                                                                                            |
 
 4. Include the `template.yaml` in your `configuration.yaml`:
